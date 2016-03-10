@@ -1,4 +1,4 @@
-.note {
+.Note {
     width: 250px;
     height: auto;
     float: left;
@@ -10,26 +10,26 @@
     transition: box-shadow .3s;
     white-space: pre-wrap;
     word-wrap: break-word;
+
+    &:hover {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+        .Note__del-icon {
+            display: block;
+        }
+    }
 }
 
-.note:hover {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
-
-.note-title {
+.Note__title {
     margin: 0;
     margin-bottom: 5px;
 }
 
-.delete-note {
+.Note__del-icon {
     position: absolute;
     top:5px;
     right:5px;
     display: none;
     color: rgba(0,0,0,0.6);
     cursor: pointer;
-}
-
-.note:hover .delete-note {
-    display: block;
 }

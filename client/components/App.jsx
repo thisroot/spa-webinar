@@ -6,7 +6,7 @@ import NotesActions from '../actions/NotesActions';
 import NoteEditor from './NoteEditor.jsx';
 import NotesGrid from './NotesGrid.jsx';
 
-import './App.css';
+import './App.less';
 
 function getStateFromFlux() {
     return {
@@ -42,8 +42,8 @@ const App = React.createClass({
 
     render() {
         return (
-            <div className="notes-app">
-                <h2 className="app-header">NotesApp</h2>
+            <div className='App'>
+                <h2 className='App__header'>NotesApp</h2>
                 <NoteEditor onNoteAdd={this.handleNoteAdd} />
                 <NotesGrid notes={this.state.notes} onNoteDelete={this.handleNoteDelete} />
             </div>

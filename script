@@ -1,0 +1,156 @@
+1. Приветствие
+    - представиться
+    - рассказать об вебинаре
+        Сегодня мы с вами создадим небольшое приложение для работы с заметками (а-ля Google Kepp). На его примере разберем создание серверной логики, работу с БД, пользовательский интерфейс, взаимодействие с API, использование архитектуры Flux и много другого.
+    - ???? я раньше никогда не проводила вебинары и очень волнуюсь, надеюсь, у нас все получится :)
+2. Что такое SPA?
+    - еще 10-15 лет назад, взаимодействие пользователей со страницами выглядело таким образом
+    - [картинка с человечком]
+    - после появления AJAX все изменилось,
+3. Введение в Node.js и npm
+    - Установка Nodejs и npm
+        https://nodejs.org/en/download
+    - рассказать про http://npmjs.com
+    - проверим как установилось
+    - CLI node
+        > var a = 5;
+        undefined
+        > a
+        5
+    - hello world
+    - установка модулей и package.json
+    - создадим папку для проекта notes-app
+    - создаем папку /server/
+    - постановка задачи
+        1. Добавить заметку
+        2. Просмотреть заметки
+        3. Удалить заметку
+4. express
+    - что это
+        Express - это минималистичный и гибкий веб-фреймворк для приложений Node.js, предоставляющий обширный набор функций. Он значительно упрощает маршрутизацию, использование промежуточных обработчиков (middleware), обработку запросов и отладку.
+    - упомянуть о ES6, установить babel@5
+        npm i babel@5 -g
+    - заполним файл package.json
+        {
+          "name": "NotesApp",
+          "version": "0.0.1",
+          "description": "Notes application",
+          "scripts": {
+            "server": "babel-node server/app.js",
+          },
+          "author": {
+            "name": "Kateryna Porshnieva",
+            "email": "k.porshnieva@gmail.com",
+            "url": "https://github.com/krambertech"
+          },
+          "dependencies": {
+            "body-parser": "*",
+            "cors": "*",
+            "express": "*",
+            "mongoose": "*"
+          },
+          "devDependencies": {
+            "babel": "5.x",
+            "babel-loader": "5.x"
+          }
+        }
+    - npm install
+    - рассказать про node_modules
+    - ES6 import (export)
+    - hello world
+        import express from 'express';
+
+        const app = express();
+
+        app.get('/', (req, res) => {
+            res.send('Hello World!');
+        });
+
+        const server = app.listen(8080, () => {
+            console.log(`Server is up and running on port 8080`);
+        });
+    - рассказать про app.get, app.post, app.put, app.delete
+5. MongoDB
+    - что это
+        MongoDB - это документо-ориентированная СУБД. Данные в MongoDB хранятся в документах, которые объединяются в коллекции. Каждый документ представляет собой JSON-подобную структуру (BSON). Проведя аналогию с реляционными СУБД, можно сказать, что коллекциям соответствуют таблицы, а документам — строки в таблицах. В отличие от РСУБД MongoDB не требует какого-либо описания схемы базы данных — она может постепенно меняться по мере развития приложения, что есть удобно.
+    - установить
+        https://www.mongodb.org/downloads
+        Windows: https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/
+        туториал: http://metanit.com/nosql/mongodb/1.2.php
+    - запустить
+6. mongoose
+    - что это
+        Mongoose — самый популярный модуль для работы с mongodb на javascript. Он позволяет очень удобно работать с базой данных, в нем все строится на схемах данных. То есть вы создаете модель хранимых данных в базе, а он уже помогает их типизировать, валидировать, строить бизнес логику поверх них, создавать запросы и т.д.
+    - создаем модель заметки
+        import mongoose from "mongoose";
+
+        const Schema = mongoose.Schema;
+
+        const NoteSchema = new Schema({
+            title     : { type: String },
+            text      : { type: String, required: true },
+            color     : { type: String },
+            createdAt : { type: Date }
+        });
+
+        const Note = mongoose.model('Note', NoteSchema);
+    - db utils
+        import mongoose from "mongoose";
+
+        import '../models/Note';
+
+        const Note = mongoose.model('Note');
+
+        export function setUpConnection() {
+            mongoose.connect(`mongodb://localhost/notes`);
+        }
+        export function listNotes(id) {
+            return Note.find();
+        }
+
+        export function createNote(data) {
+            const note = new Note({
+                title: data.title,
+                text: data.text,
+                color: data.color,
+                createdAt: new Date()
+            });
+
+            return note.save();
+        }
+
+        export function deleteNote(id) {
+            return Note.findById(id).remove();
+        }
+    - bodyparser
+        Данные мы будем получать в формате json, для того, чтобы удобно с ними взаимодействовать мы будем использовать промежуточный обработчик body-parser. Он будет вызван всякий раз, когда прийдет запрос - он сначала преобразует данные, а затем передаст управление нашим обработчикам.
+    - конфиг
+7. Что такое React
+    - был представлен Facebook в 2013 году
+    - Facebook, Instagram, Airbnb, Ebay, Netflix, Yahoо
+    - https://facebook.github.io/react/
+    - рассказать про документацию
+    - V из MVC
+    - виртуальный DOM
+        - DOM это древовидна структура всех элементов
+        - каждое изменение вида приложения соотв. изм. ее DOM
+        - эти опер-ции ресурсоемкие
+        - виртуальный DOM
+            Это такая легковесная копия реального DOM дерева на Javascript
+            Он сравнивает предыдущее состояние виртуального DOM дерева с его следующим состоянием и находит минимальное количество манипуляций, которые можно произвести уже с реальным DOM, чтобы обновить вид приложения согласно его новому состоянию.
+            И это действительно быстро работает. А все что вам нужно делать - это просто менять состояние вашего приложения, а все остальное React сделает уже за вас!
+    - компоненты
+        - компонентная модель
+        - разбор скриншота
+8. Введение в React (Hello world)
+    -
+
+
+
+
+
+
+
+
+
+

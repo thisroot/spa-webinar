@@ -2,7 +2,7 @@ import React from 'react';
 
 import ColorPicker from './ColorPicker.jsx';
 
-import './NoteEditor.css';
+import './NoteEditor.less';
 
 const NoteEditor = React.createClass({
     getInitialState() {
@@ -38,28 +38,28 @@ const NoteEditor = React.createClass({
 
     render() {
         return (
-            <div className="note-editor">
+            <div className='NoteEditor'>
                 <input
                     type='text'
-                    className="title"
+                    className='NoteEditor__title'
                     placeholder='Enter title'
                     value={this.state.title}
                     onChange={this.handleTitleChange}
                 />
                 <textarea
-                    placeholder="Enter note text"
+                    placeholder='Enter note text'
                     rows={5}
-                    className="textarea"
+                    className='NoteEditor__text'
                     value={this.state.text}
                     onChange={this.handleTextChange}
                 />
-                <div className='editor-footer'>
+                <div className='NoteEditor__footer'>
                     <ColorPicker
                         value={this.state.color}
                         onChange={this.handleColorChange}
                     />
                     <button
-                        className="add-button"
+                        className='NoteEditor__button'
                         disabled={!this.state.text}
                         onClick={this.handleNoteAdd}
                     >

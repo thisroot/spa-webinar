@@ -3,14 +3,14 @@ import Note from './Note.jsx';
 
 import Masonry from 'react-masonry-component';
 
-import './NotesGrid.css';
+import './NotesGrid.less';
 
 const NotesGrid = React.createClass({
     render() {
         const onNoteDelete = this.props.onNoteDelete;
 
         const masonryOptions = {
-            itemSelector: '.note',
+            itemSelector: '.Note',
             columnWidth: 250,
             gutter: 10,
             isFitWidth: true
@@ -18,7 +18,7 @@ const NotesGrid = React.createClass({
 
         return (
             <Masonry
-                className="notes-grid"
+                className='NotesGrid'
                 options={masonryOptions}
             >
                 {
