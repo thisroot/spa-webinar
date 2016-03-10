@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Spa-webinar by krambertech</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Spa-webinar</h1>
+      <h2 class="project-tagline"> Разработка SPA на React, NodeJS, Express и MongoDB</h2>
+      <a href="https://github.com/krambertech/spa-webinar" class="btn">View on GitHub</a>
+      <a href="https://github.com/krambertech/spa-webinar/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/krambertech/spa-webinar/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="Вебинар-Разработка-spa-на-react-nodejs-express-и-mongodb" class="anchor" href="#%D0%92%D0%B5%D0%B1%D0%B8%D0%BD%D0%B0%D1%80-%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0-spa-%D0%BD%D0%B0-react-nodejs-express-%D0%B8-mongodb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Вебинар "Разработка SPA на React, NodeJS, Express и MongoDB"</h1>
+
+<h3>
+<a id="План-вебинара" class="anchor" href="#%D0%9F%D0%BB%D0%B0%D0%BD-%D0%B2%D0%B5%D0%B1%D0%B8%D0%BD%D0%B0%D1%80%D0%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>План вебинара</h3>
+
+<ul>
+<li>Краткое введение в NodeJS и npm</li>
+<li>Написание простого сервера на NodeJS</li>
+<li>Кратко о MongoDB, взаимодействие с базой данных</li>
+<li>Написание компонентов на ReactJS</li>
+<li>Кратко об архитектуре Flux</li>
+<li>Получение и обработка данных с API</li>
+<li>Распределение данных внутри приложения</li>
+<li>Динамика в приложении</li>
+</ul>
+
+<h3>
+<a id="Вспомогательные-материлы" class="anchor" href="#%D0%92%D1%81%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%BB%D1%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Вспомогательные материлы</h3>
+
+<p>В рамках данного вебинара мы напишем небольшое приложение для создания и хранения заметок (<a href="cc%D1%8B%D0%BB%D0%BA%D0%B0">такое</a>) на NodeJS, Express, MongoDB и React.</p>
+
+<h4>
+<a id="1-Введение-в-nodejs-и-npm" class="anchor" href="#1-%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-nodejs-%D0%B8-npm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Введение в Node.js и npm</h4>
+
+<p>Node.js - программная платформа, основанная на движке Javascript V8. Она позволяет выполнять Javascript код на сервере.</p>
+
+<p>Первое, что нужно сделать - это установить Node.js. Вместе с ним в комплекте идет также и npm (Node Package Manager) - менеджер пакетов. В зависимости от используемой операционной системы, у Вас естьтакие варианты:</p>
+
+<ul>
+<li>Для Windows: <a href="https://nodejs.org/en/download">скачать .msi установщик</a>
+</li>
+<li>Для Linux: запустить <code>curl -L https://npmjs.org/install.sh | sh</code> в терминале</li>
+<li>Для Mac: <a href="https://nodejs.org/en/download">скачать .pkg установщик</a> или <code>brew install node</code>, если используете <a href="http://brew.sh/">Homebrew</a>
+</li>
+</ul>
+
+<p>После установки, можно проверить наличие Node.js и npm на Вашем компьютере.</p>
+
+<pre><code>node -v
+v5.1.0
+
+npm -v
+3.3.12
+</code></pre>
+
+<h4>
+<a id="2-hello-world-на-nodejs" class="anchor" href="#2-hello-world-%D0%BD%D0%B0-nodejs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. Hello world на Node.js</h4>
+
+<p>Давайте приступим к делу и напишем наше первое Node.js приложение «Hello world».</p>
+
+<p>Откройте любой редактор и создайте файл под названием helloworld.js. В нем мы хотим вывести строку «Hello world» в консоль, для этого пишем следующий код:</p>
+
+<pre><code>console.log("Hello World");
+</code></pre>
+
+<p>Сохраняем файл и выполняем его посредством Node.js из терминала:</p>
+
+<pre><code>node helloworld.js
+</code></pre>
+
+<p>Эта команда должна вывести Hello World в вашем терминале.</p>
+
+<h4>
+<a id="3-Постановка-задачи" class="anchor" href="#3-%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Постановка задачи</h4>
+
+<p>Мы будем создавать приложения для работы с заметками с таким функционалом:</p>
+
+<pre><code>1. Добавить заметку
+2. Просмотреть заметки
+3. Удалить заметку
+</code></pre>
+
+<p>В самом начале, нам нужно спроектировать API сервера. Исходя из определенного выше функционала и опираясь на методолгию REST, нам понадобятся такие вызовы:</p>
+
+<pre><code>`GET /notes` - получить все заметки
+`POST /notes` - создать новую заметку
+`DELETE /notes/:id` - удалить заметку
+</code></pre>
+
+<h4>
+<a id="4-Использование-express" class="anchor" href="#4-%D0%98%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-express" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Использование Express</h4>
+
+<p><a href="http://expressjs.com/">Express</a> - это минималистичный и гибкий веб-фреймворк для приложений Node.js, предоставляющий обширный набор функций. Он значительно упрощает маршрутизацию, использование промежуточных обработчиков (middleware), обработку запросов и отладку.</p>
+
+<p>Создадим новую папку для проекта. Добавим в нее файл <code>package.json</code> приблизительно такого содержания:</p>
+
+<pre><code>{
+  "name": "NotesApp",
+  "version": "0.0.1",
+  "description": "Notes application",
+  "scripts": {
+    "server": "babel-node server/app.js",
+  },
+  "author": {
+    "name": "Kateryna Porshnieva",
+    "email": "k.porshnieva@gmail.com",
+    "url": "https://github.com/krambertech"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "mongoose": "*"
+  },
+  "devDependencies": {
+    "babel": "5.x",
+    "babel-loader": "5.x"
+  }
+}
+
+</code></pre>
+
+<p>Создадим папку <code>/server</code> - в ней будет храниться весь код, относящийся к серверной части приложения (бекенд). В ней создадим файл <code>app.js</code> - главный файл нашего сервера.</p>
+
+<p><strong>Примечание:</strong> Весь последующий код будет написан в стандарте ES2015 (ES6).</p>
+
+<pre><code>import express from 'express';
+
+const app = express();
+
+const server = app.listen(8080, () =&gt; {
+    console.log(`Server is up and running on port 8080`);
+});
+</code></pre>
+
+<p>Здесь мы создали express-приложение и запустили веб-сервер на порте 8080. Для того, чтобы запустить его нужно выполнить в терминале <code>babel-node server/app.js</code>.</p>
+
+<p>Пока что наш сервер ничего не умеет делать, давайте создадим для него новый маршрут:</p>
+
+<pre><code>import express from 'express';
+
+const app = express();
+
+app.get('/', (req, res) =&gt; {
+    res.send('Hello World!');
+});
+
+const server = app.listen(8080, () =&gt; {
+    console.log(`Server is up and running on port 8080`);
+});
+</code></pre>
+
+<p>Теперь если открыть http://localhost:8080/ то вы увидите надпись "Hello world". Маршруты в Express описываются очень просто:</p>
+
+<pre><code>app.get('/grapes', (req, res) =&gt; {});
+app.post('/grapes', (req, res) =&gt; {});
+app.put('/grapes', (req, res) =&gt; {});
+app.delete('/grapes', (req, res) =&gt; {});
+</code></pre>
+
+<p>Вы пишете <code>app.метод(маршрут, функция)</code>. Маршрут затем будет трансформирован в резулярное выражение, чтобы сервер понимал какие запросы как нужно обработать. Функция принимает объекты req (<a href="http://expressjs.com/ru/4x/api.html#req">объект запроса</a>), res (<a href="http://expressjs.com/ru/4x/api.html#res">объект ответа</a>) и next (функцию для вызова следующего обработчика).</p>
+
+<h4>
+<a id="5-mongodb-и-mongoose" class="anchor" href="#5-mongodb-%D0%B8-mongoose" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. MongoDB и mongoose</h4>
+
+<p>MongoDB - это документо-ориентированная СУБД. Данные в MongoDB хранятся в документах, которые объединяются в коллекции. Каждый документ представляет собой JSON-подобную структуру (BSON). Проведя аналогию с реляционными СУБД, можно сказать, что коллекциям соответствуют таблицы, а документам — строки в таблицах. В отличие от РСУБД MongoDB не требует какого-либо описания схемы базы данных — она может постепенно меняться по мере развития приложения, что есть удобно.</p>
+
+<p>Cначала нужно установить MongoDB на свой компьютер. Cсылка для скачивания и инструкции по установке: <a href="https://www.mongodb.org/downloads">https://www.mongodb.org/downloads</a></p>
+
+<p>Mongoose — самый популярный модуль для работы с mongodb на javascript. Он позволяет очень удобно работать с базой данных, в нем все строится на схемах данных. То есть вы создаете модель хранимых данных в базе, а он уже помогает их типизировать, валидировать, строить бизнес логику поверх них, создавать запросы и т.д.</p>
+
+<p>В базе данных мы будем хранить заметки. Так как в mongoose все строится на моделях данных, нам нужно создать модель (схему) для заметок. Делается это очень просто:</p>
+
+<pre><code>import mongoose from "mongoose";
+
+const Schema = mongoose.Schema;
+
+const NoteSchema = new Schema({
+    title     : { type: String },
+    text      : { type: String, required: true },
+    color     : { type: String },
+    createdAt : { type: Date }
+});
+
+const Note = mongoose.model('Note', NoteSchema);
+</code></pre>
+
+<p>Есть огромное множество встроенных типов и приемов для работы с данными - все их вы можете найти в документации - <a href="http://mongoosejs.com/docs/">http://mongoosejs.com/docs/</a></p>
+
+<p>Сейчас мы создали схему для заметки, а потом, на основе этой схемы, модель. Модель - это класс, с помощью которого будут строиться документы в коллекции. В этом случае, каждый документ будет заметкой с параметрами и поведением, которое мы определили. Например, у каждой заметки есть заголовок, текст, цвет и дата создания. Из всех полей, только тект является обязательным - он помечен <code>required</code>.</p>
+
+<p>Также к схемам можно добавлять методы:</p>
+
+<pre><code>var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/kittens');
+
+var kittySchema = mongoose.Schema({
+    name: String
+});
+
+kittySchema.methods.speak = function () {
+  var greeting = this.name
+    ? "Meow name is " + this.name
+    : "I don't have a name";
+  console.log(greeting);
+}
+
+var Kitten = mongoose.model('Kitten', kittySchema);
+
+var fluffy = new Kitten({ name: 'fluffy' });
+
+fluffy.speak();
+</code></pre>
+
+<p>Мы с вами создали говорящих котят. Для того, чтобы сохранить Флаффи в базу данных, нам нужно просто написать:</p>
+
+<pre><code>fluffy.save(function (err, fluffy) {
+  if (err) return console.error(err);
+  fluffy.speak();
+});
+</code></pre>
+
+<p>Теперь для того, чтобы получить всех котят, мы можем использовать метод find:</p>
+
+<pre><code>Kitten.find(function (err, kittens) {
+  if (err) return console.error(err);
+  console.log(kittens);
+})
+</code></pre>
+
+<p>Чтобы найти всех котят по имени fluffy:</p>
+
+<pre><code>Kitten.find({ name: "fluffy" }, callback);
+</code></pre>
+
+<p>Теперь давайте отойдем от котят и вернемся к нашим заметкам. Сохраним модель заметки в папке <code>/server/models/Note.js</code>. Теперь нужно связать взаимодействие с базой данных и запросы. Для работы с базой мы создадим утилиту <code>server/utils/DataBaseUtils.js</code>, в которой просто изолируем методы для работы с базой.</p>
+
+<p>Сначала нам нужно настроить соединение:</p>
+
+<pre><code>import mongoose from "mongoose";
+
+import '../models/Note';
+
+const Note = mongoose.model('Note');
+
+export function setUpConnection() {
+    mongoose.connect(`mongodb://localhost/notes`);
+}
+</code></pre>
+
+<p>И добавим несколько методов для взаимодействия с базой:</p>
+
+<pre><code>export function listNotes(id) {
+    return Note.find();
+}
+
+export function createNote(data) {
+    const note = new Note({
+        title: data.title,
+        text: data.text,
+        color: data.color,
+        createdAt: new Date()
+    });
+
+    return note.save();
+}
+
+export function deleteNote(id) {
+    return Note.findById(id).remove();
+}
+</code></pre>
+
+<p>Теперь нужно создать соответствующие маршруты. Вернемся к файлу <code>/server/app.js</code>.</p>
+
+<p>Данные мы будем получать в формате json, для того, чтобы удобно с ними взаимодействовать мы будем использовать промежуточный обработчик <a href="https://github.com/expressjs/body-parser">body-parser</a>. Он будет вызван всякий раз, когда прийдет запрос - он сначала преобразует данные, а затем передаст управление нашим обработчикам.</p>
+
+<p>Используется он таким образом:</p>
+
+<pre><code>import bodyParser from 'body-parser';
+
+// ...
+
+app.use( bodyParser.json() );
+</code></pre>
+
+<p>Теперь данные, полученые в json формате будут обработаны корректно.</p>
+
+<p>В итоге, наш файл <code>app.js</code> выглядит вот так:</p>
+
+<pre><code>import express from 'express';
+import bodyParser from 'body-parser';
+
+import * as db from './utils/DataBaseUtils';
+
+// Initialization of express application
+const app = express();
+
+// Set up connection of database
+db.setUpConnection();
+
+// Using bodyParser middleware
+app.use( bodyParser.json() );
+
+// RESTful api handlers
+app.get('/notes', (req, res) =&gt; {
+    db.listNotes().then(data =&gt; res.send(data));
+});
+
+app.post('/notes', (req, res) =&gt; {
+    db.createNote(req.body).then(data =&gt; res.send(data));
+});
+
+app.delete('/notes/:id', (req, res) =&gt; {
+    db.deleteNote(req.params.id).then(data =&gt; res.send(data));
+});
+
+const server = app.listen(8080, function() {
+    console.log(`Server is up and running on port 8080`);
+</code></pre>
+
+<p>После обращения к базе мы используем промисы (Promise), они предоставляют удобный способ организации асинхронного кода.</p>
+
+<p>На этом почти все, мы создали серверное приложение на node.js. Еще было бы неплохо создать для него конфигурацию, то есть вынести некоторые переменные в конфиг. Создадим файл <code>/etc/config.json</code>:</p>
+
+<pre><code>{
+    "apiPrefix": "http://localhost:8080",
+    "serverPort": "8080",
+    "db":{
+        "name": "notes",
+        "host": "localhost",
+        "port": 27017
+    }
+}
+</code></pre>
+
+<p>Теперь при использовании этих переменных, будем обращаться к этому файлу.</p>
+
+<p><strong>app.js</strong></p>
+
+<pre><code>import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+
+import { serverPort } from '../etc/config.json';
+
+import * as db from './utils/DataBaseUtils';
+
+// Initialization of express application
+const app = express();
+
+// Set up connection of database
+db.setUpConnection();
+
+// Using bodyParser middleware
+app.use( bodyParser.json() );
+
+// Allow requests from any origin
+app.use(cors({ origin: '*' }));
+
+// RESTful api handlers
+app.get('/notes', (req, res) =&gt; {
+    db.listNotes().then(data =&gt; res.send(data));
+});
+
+app.post('/notes', (req, res) =&gt; {
+    db.createNote(req.body).then(data =&gt; res.send(data));
+});
+
+app.delete('/notes/:id', (req, res) =&gt; {
+    db.deleteNote(req.params.id).then(data =&gt; res.send(data));
+});
+
+const server = app.listen(serverPort, function() {
+    console.log(`Server is up and running on port ${serverPort}`);
+});
+</code></pre>
+
+<p><strong>DataBaseUtils.js</strong></p>
+
+<pre><code>import mongoose from "mongoose";
+
+import config from '../../etc/config.json';
+
+import '../models/Note';
+
+const Note = mongoose.model('Note');
+
+export function setUpConnection() {
+    mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
+}
+
+export function listNotes(id) {
+    return Note.find();
+}
+
+export function createNote(data) {
+    const note = new Note({
+        title: data.title,
+        text: data.text,
+        color: data.color,
+        createdAt: new Date()
+    });
+
+    return note.save();
+}
+
+export function deleteNote(id) {
+    return Note.findById(id).remove();
+}
+</code></pre>
+
+<h4>
+<a id="6-Введение-в-react" class="anchor" href="#6-%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-react" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6. Введение в React</h4>
+
+<p>ReactJS - это JаvaScript библиотека для построения пользовательских интерфейсов. Это не MVC фреймворк. К нему можно применить только V из этой аббревиатуры. Такая узкая сфера применения дает свободу использования React в различных системах в комбинации с другими библиотеками.</p>
+
+<p>React был представлен Facebook в 2013 году, и очень быстро обрел популярность. Сегодня его используют многие известные компании включая Instagram, Airbnb, Ebay, Netflix, Yahoo и другие.</p>
+
+<p>Основным отличием React от других JavaScript фреймворков является то, как он управляет состоянием приложения. Если вспомнить, как пользователи взаимодействовали с веб-страницами еще 10-15 лет назад, то увидим такую картину:</p>
+
+<p><img src="https://github.com/krambertech/react-essential-course/raw/master/01-introduction-to-react/images/001.png" alt=""></p>
+
+<p>Сервер всегда возвращал статическую страницу, и реакцией на действия пользователя была полная перезагрузка страницы. Преимуществами такого подхода, была простота в реализации и понимании, недостатками - скорость работы, отзывчивость, UX и потеря состояния при каждой перезагрузке.</p>
+
+<p>Все очень изменилось с появлением AJAX, это подход к построению интерактивных веб-приложений, заключающийся в «фоновом» обмене данными браузера с веб-сервером. То есть, в фоновом режиме отправляются запросы на сервер, приходят с него ответы, изменяется состояние приложения и, соответственно, внешний вид. Именно такой подход породил понятие Single Page Application.</p>
+
+<p><img src="https://github.com/krambertech/react-essential-course/raw/master/01-introduction-to-react/images/002.png" alt=""></p>
+
+<p>Но каждое визуальное изменение на странице соответствует изменению ее DOM дерева. Не секрет, что все манипуляции с DOM деревом являются очень ресурсоемкими операциями, т.к. изначально DOM дерево было статическим и никакой динамики не предусматривало.</p>
+
+<p><img src="https://github.com/krambertech/react-essential-course/raw/master/01-introduction-to-react/images/006.png" alt=""></p>
+
+<p>Именно поэтому в React используется виртуальный DOM. Это такая легковесная копия реального DOM дерева на Javascript. Таким образом, React манипулирует не с реальным (синоним - медленным) DOM деревом, а с виртуальным.</p>
+
+<p><img src="https://github.com/krambertech/react-essential-course/raw/master/01-introduction-to-react/images/003.png" alt=""></p>
+
+<p>Он сравнивает предыдущее состояние виртуального DOM дерева с его следующим состоянием и находит минимальное количество манипуляций, которые можно произвести уже с реальным DOM, чтобы обновить вид приложения согласно его новому состоянию.</p>
+
+<p><img src="https://github.com/krambertech/react-essential-course/raw/master/01-introduction-to-react/images/004.png" alt=""></p>
+
+<p>И это действительно быстро работает. А все что вам нужно делать - это просто менять состояние вашего приложения, а все остальное React сделает уже за вас!</p>
+
+<h3>
+<a id="Запуск-проекта" class="anchor" href="#%D0%97%D0%B0%D0%BF%D1%83%D1%81%D0%BA-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Запуск проекта</h3>
+
+<ol>
+<li>Clone this repo</li>
+<li><code>cd spa-webinar</code></li>
+<li><code>npm install</code></li>
+<li>Скопируйте <code>etc/config.js.sample</code> в <code>etc/config.js</code>
+</li>
+<li><code>npm run server</code></li>
+<li><code>npm run webpack-devserver</code></li>
+<li>Откройте http://localhost:8090 в браузере</li>
+</ol>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/krambertech/spa-webinar">Spa-webinar</a> is maintained by <a href="https://github.com/krambertech">krambertech</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
