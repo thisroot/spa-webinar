@@ -586,7 +586,9 @@ var EventComponent = React.createClass({
 
 О том, какие события поддерживаются можно прочитать [тут](https://facebook.github.io/react/docs/events.html).
 
-#### Hello world шаблон
+#### ReactJS Hello world
+
+Начнем с простого подключения React в html документе
 
 ```
 <!DOCTYPE html>
@@ -619,9 +621,393 @@ var EventComponent = React.createClass({
 </html>
 ```
 
+В параметрах мы можем передавать значения компоненту, которые он будет уже использовать внутри себя, обращаясь к `this.props`.
+
+```
+const HelloWorld = React.createClass({
+    render() {
+        return (
+            <h1> Hello, {this.props.name}! </h1>
+        );
+    }
+});
+
+ReactDOM.render(
+    <HelloWorld name='Vasya' />,
+    document.getElementById('content')
+);
+```
+
+Также мы можем добавить динамику в компонент с помощью использования состояния и обработки событий.
+
+
+```
+const HelloWorld = React.createClass({
+    getInitialState() {
+        return {
+            name: 'Vasya'
+        };
+    },
+
+    handleNameChange(e) {
+        this.setState({
+            name: e.target.value
+        });
+    },
+
+    render() {
+        return (
+            <div>
+                <h1> Hello {this.state.name}! </h1>
+                <input type='text' value={this.state.name} onChange={this.handleNameChange} />
+            </div>
+        );
+    }
+});
+
+ReactDOM.render(
+    <HelloWorld />,
+    document.getElementById('content')
+);
+```
+
+#### Сборка приложения
+
+Для более сложных проектов уже не выйдет все компоненты описать в index.html. Обычно создается отдельный файл для компонента, то компонент `Button` будет находиться в файле `Button.jsx`, а если у него еще есть отдельный файл со стилями, то мы создадим файл `Button.css` и расположим рядом с файлом компонента и подключим в нем. Основная идея такого подхода стоит в том, чтобы максимально изолировать компонент и все относящиеся к нему зависимости.
+
+Тогда создадим в нащем проекте папку `/client`, в которой будет располагаться весь код, относящийся к клиентской части приложения. Также мы должны создать главный файл проекта, так называемую "точку входа". Из которого мы будем уже подключать другие модули, а они следующие и так далее. Создадим файл `main.js`.
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+    <h1>Notes</h1>,
+    document.getElementById('mount-point')
+);
+```
+
+Для того, чтобы кучу совершенно разных кусочков проекта (стили, js, json, jsx и т.д.) собрать воедино существуют системы сборки. Их сейчас есть достаточно много: gulp, grunt, broccoli, browserify и т.п. Но мы будем говорить о webpack. Почему именно он? Все очень просто - это самое универсальное и комплексное решение.
+
+![](https://webpack.github.io/assets/what-is-webpack.png)
+
+Установим webpack глобально:
+
+```
+npm install webpack -g
+```
+
+При этом, в нем весь процесс сборки проекты описывается достаточно просто. Вот, например, как будет выглядеть наш конфиг:
+
+```
+var webpack = require('webpack');
+
+module.exports = {
+    entry: "./client/main.js",
+    output: {
+        path: __dirname + '/public/build/',
+        publicPath: "build/",
+        filename: "bundle.js"
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                loader: "babel",
+                exclude: [/node_modules/, /public/]
+            },
+            {
+                test: /\.less$/,
+                loader: "style-loader!css-loader!autoprefixer-loader!less",
+                exclude: [/node_modules/, /public/]
+            },
+            {
+                test: /\.jsx$/,
+                loader: "react-hot!babel",
+                exclude: [/node_modules/, /public/]
+            },
+            {
+                test: /\.json$/,
+                loader: "json-loader"
+            }
+        ]
+    }
+}
+```
+
+Мы описывает то, что должно быть на входе и то, что мы хотим получить на выходе. Для осуществления преобразований файлов используются загрузчики.
+
+Чтобы запустить сборку, нужно в терминале выполнить команду
+
+```
+webpack -p
+```
+
+Тогда появится файл `bundle.js` cо всем уже минифицированным кодом.
+
+Также для webpack есть утилита `webpack-dev-server` для запуска development-сервера и отслеживания изменений в файлах. В него можно подключить как hot-reload - автоматическую перезагрузку страницы браузера при изменении файлов проекта, так и hot-module-replacement - возможность при изменении исходников очень быстро отобразить изменения в браузере без перезагрузки страницы, выглядит как магия.
+
+Для запуска `webpack-dev-server` нам нужно выполнить такую команду:
+
+```
+webpack-dev-server --debug --hot --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8090 --host 0.0.0.0
+```
+
+Но чтобы такое безобразие каждый раз неписать в консоли, давайте добавим ее в `scripts` в `package.json`.
+
+```
+  "scripts": {
+    "webpack-devserver": "webpack-dev-server --debug --hot --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8090 --host 0.0.0.0"
+  }
+```
+
+Теперь мы можем просто писать `npm run webpack-devserver` и данная команда будет выполнена.
+
+#### Flux
+
+Flux — это архитектура, которую команда Facebook использует при работе с React. Это не фреймворк, или библиотека, это новый архитектурный подход, который дополняет React и принцип однонаправленного потока данных.
 
 
 
+Типичная реализация архитектуры Flux может использовать эту библиотеку вместе с классом EventEmitter из NodeJS, чтобы построить событийно-ориентированную систему, которая поможет управлять состоянием приложения.
+
+![](https://habrastorage.org/files/4dc/a12/94a/4dca1294a4c34adea48bf8da61e7a692.png)
+
+Facebook предоставляет библиотеку (`npm i flux`), которая содержит реализацию Dispatcher. Dispatcher по своей сути является event-системой. Он траслирует события и регистрирует колбэки. Есть только один глобальный dispatcher. Он очень легко инициализируется:
+
+**client/dispatcher/AppDispatcher.js**
+```
+import { Dispatcher } from 'flux';
+
+export default new Dispatcher();
+```
+В сущности, Диспетчер — это менеджер всего этого процесса. Это центральный узел вашего приложения. Диспетчер получает на вход действия и рассылает эти действия (и связанные с ними данные) зарегистрированным обработчикам.
+
+Actions — хелперы, упрощающие передачу данных Диспетчеру. Это набор методов, которые вызываются из Представлений (или из любых других мест), чтобы отправить Действия Диспетчеру. В реализации Facebook Действия различаются по типу — константе, которая посылается вместе с данными действия. В зависимости от типа, Действия могут быть соответствующим образом обработаны в зарегистрированных обработчиках, при этом данные из этих Действий используются как аргументы внутренних методов.
+
+Объявление констант:
+
+**client/constants/AppConstants.js**
+```
+import keyMirror from 'keymirror';
+
+export default keyMirror({
+    LOAD_NOTES_REQUEST: null,
+    LOAD_NOTES_SUCCESS: null,
+    LOAD_NOTES_FAIL: null
+});
+```
+
+Мы использовали библиотеку keyMirror чтобы создать объект со значениями, идентичными своим ключам.
+
+Действия же выглядят таким образом:
+
+**client/actions/NotesActions.js**
+```
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import Constants from '../constants/AppConstants';
+
+import api from '../api';
+
+const NoteActions = {
+    loadNotes() {
+        AppDispatcher.dispatch({
+            type: Constants.LOAD_NOTES_REQUEST
+        });
+
+        api.listNotes()
+        .then(({ data }) =>
+            AppDispatcher.dispatch({
+                type: Constants.LOAD_NOTES_SUCCESS,
+                notes: data
+            })
+        )
+        .catch(err =>
+            AppDispatcher.dispatch({
+                type: Constants.LOAD_NOTES_FAIL,
+                error: err
+            })
+        );
+    },
+
+    createNote(note) {
+        api.createNote(note)
+        .then(() =>
+            this.loadNotes()
+        )
+        .catch(err =>
+            console.error(err)
+        );
+    },
+
+    deleteNote(noteId) {
+        api.deleteNote(noteId)
+        .then(() =>
+            this.loadNotes()
+        )
+        .catch(err =>
+            console.error(err)
+        );
+    }
+};
+
+export default NoteActions;
+```
+
+Хранилища в Flux управляют состоянием определенных частей предметной области вашего приложения. На более высоком уровне это означает, что Хранилища хранят данные, методы получения этих данных и зарегистрированные в Диспетчере обработчики Действий.
+
+**client/stores/NotesStore.js**
+```
+import { EventEmitter } from 'events';
+
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import AppConstants from '../constants/AppConstants';
+
+const CHANGE_EVENT = 'change';
+
+let _notes = [];
+let _loadingError = null;
+let _isLoading = true;
+
+function formatNote(note) {
+    return {
+        id: note._id,
+        title: note.title,
+        text: note.text,
+        color: note.color || '#ffffff',
+        createdAt: note.createdAt
+    };
+}
+
+const NotesStore = Object.assign({}, EventEmitter.prototype, {
+    isLoading() {
+        return _isLoading;
+    },
+
+    getNotes() {
+        return _notes;
+    },
+
+    emitChange: function() {
+        this.emit(CHANGE_EVENT);
+    },
+
+    addChangeListener: function(callback) {
+        this.on(CHANGE_EVENT, callback);
+    },
+
+    removeChangeListener: function(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
+    }
+});
+
+AppDispatcher.register(function(action) {
+    switch(action.type) {
+        case AppConstants.LOAD_NOTES_REQUEST: {
+            _isLoading = true;
+
+            NotesStore.emitChange();
+            break;
+        }
+
+        case AppConstants.LOAD_NOTES_SUCCESS: {
+            _isLoading = false;
+            _notes = action.notes.map( formatNote );
+            _loadingError = null;
+
+            NotesStore.emitChange();
+            break;
+        }
+
+        case AppConstants.LOAD_NOTES_FAIL: {
+            _loadingError = action.error;
+
+            NotesStore.emitChange();
+            break;
+        }
+
+        default: {
+            console.log('No such handler');
+        }
+    }
+});
+
+export default NotesStore;
+```
+
+Самое важное, что мы сделали — добавили к нашему хранилищу возможности EventEmitter из NodeJS. Это позволяет хранилищам слушать и рассылать события, что, в свою очередь, позволяет компонентам представления обновляться, отталкиваясь от этих событий. Так как наше представление слушает событие «change», создаваемое Хранилищами, оно узнаёт о том, что состояние приложения изменилось, и пора получить (и отобразить) актуальное состояние.
+
+Также мы зарегистрировали обработчик в нашем AppDispatcher с помощью его метода register. Это означает, что теперь наше Хранилище теперь слушает оповещения от AppDispatcher. Исходя из полученных данных, оператор switch решает, можем ли мы обработать Действие. Если действие было обработано, создается событие «change», и Представления, подписавшиеся на это событие, реагируют на него обновлением своего состояния:
+
+![](https://habrastorage.org/files/e4c/e7a/a88/e4ce7aa881f94a549a3b6c987d4e3e1c.png)
+
+Представление использует метод getNotes интерфейса Хранилища для того, чтобы получить все notes из внутреннего объекта _notes и передать эти данные в компоненты. Это очень простой пример, однако такая архитектура позволяет компонентам оставаться достаточно аккуратными, даже если вместо Представлений использовать более сложную логику.
+
+Тогда в компоненте нам нужно подписаться на изменения в хранилище и вызывать действия.
+
+**client/components/App.jsx**
+```
+import React from 'react';
+
+import NotesStore from '../stores/NotesStore';
+import NotesActions from '../actions/NotesActions';
+
+import NoteEditor from './NoteEditor.jsx';
+import NotesGrid from './NotesGrid.jsx';
+
+import './App.less';
+
+function getStateFromFlux() {
+    return {
+        isLoading: NotesStore.isLoading(),
+        notes: NotesStore.getNotes()
+    };
+}
+
+const App = React.createClass({
+    getInitialState() {
+        return getStateFromFlux();
+    },
+
+    componentWillMount() {
+        NotesActions.loadNotes();
+    },
+
+    componentDidMount() {
+        NotesStore.addChangeListener(this._onChange);
+    },
+
+    componentWillUnmount() {
+        NotesStore.removeChangeListener(this._onChange);
+    },
+
+    handleNoteDelete(note) {
+        NotesActions.deleteNote(note.id);
+    },
+
+    handleNoteAdd(noteData) {
+        NotesActions.createNote(noteData);
+    },
+
+    render() {
+        return (
+            <div className='App'>
+                <h2 className='App__header'>NotesApp</h2>
+                <NoteEditor onNoteAdd={this.handleNoteAdd} />
+                <NotesGrid notes={this.state.notes} onNoteDelete={this.handleNoteDelete} />
+            </div>
+        );
+    },
+
+    _onChange() {
+        this.setState(getStateFromFlux());
+    }
+});
+
+export default App;
+```
+
+А уже этот компонент будет передавать данные всем дочерним компонентам через props.
 
 ### Запуск проекта
 
