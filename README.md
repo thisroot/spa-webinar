@@ -79,7 +79,7 @@ node helloworld.js
   "version": "0.0.1",
   "description": "Notes application",
   "scripts": {
-    "server": "babel-node server/app.js",
+    "server": "babel-node server/app.js"
   },
   "author": {
     "name": "Kateryna Porshnieva",
