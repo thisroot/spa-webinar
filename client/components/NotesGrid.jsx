@@ -7,8 +7,6 @@ import './NotesGrid.less';
 
 const NotesGrid = React.createClass({
     render() {
-        const onNoteDelete = this.props.onNoteDelete;
-
         const masonryOptions = {
             itemSelector: '.Note',
             columnWidth: 250,
