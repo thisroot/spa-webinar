@@ -1,5 +1,7 @@
 # Материалы к вебинару "Разработка SPA на React, NodeJS, Express и MongoDB"
 
+## 🎉🎉🎉  [6-недельный онлайн-курс по React.js](http://frontend-science.com/react/)  🎉🎉🎉
+
 ### План вебинара
 
  - Краткое введение в NodeJS и npm
